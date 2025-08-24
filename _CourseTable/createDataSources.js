@@ -342,6 +342,7 @@ function mergeTeacherTable(headers, data_array) {
     "Bank",
     "IBAN_MBS",
     "Tel",
+    "Verrechnungsservice",
   ];
   var teacher_headers = [
     "Lehrername",
@@ -356,6 +357,7 @@ function mergeTeacherTable(headers, data_array) {
     "Bank",
     "IBAN_MBS",
     "Tel",
+    "Verrechnungsservice"
   ];
   headers = headers.concat(teacher_headers);
 
@@ -858,12 +860,14 @@ function getDataSourceBaseHeaders() {
     "Re_Email",
     "Kursstatus",
     "Kurs_Nr",
+    "Vorangemeldet",
     "L_Anrede",
     "L_Tit_Vorname",
     "L_Zuname",
     "L_Adresse",
     "L_Plz",
     "L_Ort",
+    "L_Verrechnungsservice",
     "IBAN",
     "BIC",
     "Bank",
@@ -905,6 +909,7 @@ function geColToHeaderMap() {
     Re_Email: "Rechnungs_Mail",
     Kursstatus: "Kursstatus",
     Kurs_Nr: "Kursnummer",
+    Vorangemeldet: "Vorangemeldet",
     "1_Tlz_Betrag_fällig": "tz1_due_amount",
     "2_Tlz_Betrag_fällig": "tz2_due_amount",
     "3_Tlz_Betrag_fällig": "tz3_due_amount",
@@ -947,6 +952,7 @@ function geColToHeaderMap() {
     Bank: "Bank",
     L_Tel: "Tel",
     "e-mail": "Lehrermail",
+    "L_Verrechnungsservice": "Verrechnungsservice",
     Regiebeitrag_fällig: "adminfee_due_amount",
     Regiebeitrag_bez: "adminfee_paid_amount",
     Regiebeitrag_rest: "adminfee_saldo_amount",

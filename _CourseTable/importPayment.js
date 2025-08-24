@@ -850,7 +850,7 @@ function registerPreRegistrations()
   let starting_row = IMPORTPAYMENTSHEET.getRange(IMPORT_STARGINGROW, IMPORT_STARTINGCOL).getValue();
   let last_row = IMPORTPAYMENTSHEET.getLastRow();
 
-  var import_ids = IMPORTPAYMENTSHEET.getRange(starting_row, IMPORT_BANKREFCOL, last_row-starting_row+1).getValues().flat()
+  var import_ids = IMPORTPAYMENTSHEET.getRange(starting_row, IMPORT_AUTOASSIGNMENTCOL, last_row-starting_row+1).getValues().flat()
 
   //read all student ids, keep dont delete any rows
   last_row = COURSEBILLINGSHEET.getLastRow()
@@ -865,7 +865,7 @@ function registerPreRegistrations()
     } 
     //set color field green
     var import_row = starting_row+i
-    IMPORTPAYMENTSHEET.getRange(import_row, IMPORT_BANKREFCOL).setBackground(GREEN)
+    IMPORTPAYMENTSHEET.getRange(import_row, IMPORT_BANKAMOUNTCOL, 1, 6).setBackground(GREEN)
 
     //set box to checked
     var billing_row = HEADERROW+1+student_idx

@@ -63,6 +63,10 @@ function resetStudentList(teacherfile_ids)
       status_values = Array(num_rows).fill([NOCOURSEVALUE])
       student_sheet.getRange(STU_COLNAMEROW+1, STU_COURSEIDCOL, num_rows, 1).setValues(status_values);
 
+      // reset Anmerkungen
+      student_sheet.getRange(STU_COLNAMEROW+1, STU_COMMENTSCOL, num_rows).clearContent()
+
+
       console.log(teacherfile_id + " done")
     }
 }
