@@ -1,0 +1,38 @@
+{
+  "timeZone": "Europe/Vienna",
+  "dependencies": {
+    "libraries": [
+      {
+        "userSymbol": "TT",
+        "version": "0",
+        "libraryId": "1EwjRBEGNoyOLzqsNkXzuubrLLtyQfKuBUYzZidORAnwY3oMllR55ZAiK",
+        "developmentMode": true
+      },
+      {
+        "userSymbol": "MAIL",
+        "version": "0",
+        "libraryId": "1NnjN6_RGvO4pE5d-H8TKf5CL7VgEMJ_qeRa4TlVWTsu8CGn7x3k-kGEd",
+        "developmentMode": true
+      },
+      {
+        "userSymbol": "DATA",
+        "version": "0",
+        "libraryId": "1iWvHa8GzRyxXEdInfoX4eZKxrvm8WTiDwAl72QOmx47ovya5FoZFVJfh",
+        "developmentMode": true
+      }
+    ],
+    "enabledAdvancedServices": [
+      {
+        "userSymbol": "Drive",
+        "version": "v3",
+        "serviceId": "drive"
+      }
+    ]
+  },
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8",
+  "webapp": {
+    "executeAs": "USER_DEPLOYING",
+    "access": "ANYONE_ANONYMOUS"
+  }
+}

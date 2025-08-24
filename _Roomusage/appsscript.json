@@ -1,0 +1,27 @@
+{
+  "timeZone": "Europe/Vienna",
+  "dependencies": {
+    "libraries": [
+      {
+        "userSymbol": "TF_GET",
+        "version": "0",
+        "libraryId": "13cMRMqIGsKX4AXnYSSVeSimJiMyzPUfl4C1fdk1Mrc-cbDCO9CuztTV8",
+        "developmentMode": true
+      },
+      {
+        "userSymbol": "DATA",
+        "version": "0",
+        "libraryId": "1iWvHa8GzRyxXEdInfoX4eZKxrvm8WTiDwAl72QOmx47ovya5FoZFVJfh",
+        "developmentMode": true
+      },
+      {
+        "userSymbol": "TT",
+        "version": "0",
+        "libraryId": "1EwjRBEGNoyOLzqsNkXzuubrLLtyQfKuBUYzZidORAnwY3oMllR55ZAiK",
+        "developmentMode": true
+      }
+    ]
+  },
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8"
+}
