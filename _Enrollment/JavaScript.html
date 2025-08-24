@@ -1,0 +1,54 @@
+<script>
+  // Prevent forms from submitting.
+  function preventFormSubmit() {
+    var forms = document.querySelectorAll('form');
+    for (var i = 0; i < forms.length; i++) {
+      forms[i].addEventListener('submit', function(event) {
+      event.preventDefault();
+      });
+    }
+  }
+  window.addEventListener('load', preventFormSubmit);    
+  
+  //ON FAILURE
+  function callback_failure(error) {
+  document.getElementById("status_bar").innerHTML=error.message;
+  }
+
+  //SUCCESSFUL SENT MAIL
+  function callback_mail_success(response) {
+  document.getElementById("myForm").reset();
+  document.getElementById("status_bar").innerHTML="Erfolgreich versendet";
+  }
+
+  //SENT MAIL
+  function handleFormSubmit(formObject) {
+    document.getElementById("status_bar").innerHTML="Wird gesendet..";
+    google.script.run.withFailureHandler(callback_failure).withSuccessHandler(callback_mail_success).processForm(formObject);
+  }
+
+  //GET ROW
+  function callback_row_success(response){
+    document.getElementById("status_bar").innerHTML="Zeile "+response+" wird geladen";
+    google.script.run.withFailureHandler(callback_failure).withSuccessHandler(callback_studentmail_success).getMail(response);
+    google.script.run.withFailureHandler(callback_failure).withSuccessHandler(callback_teacher_success).getTeacherContact(response);
+  }
+
+  //GET MAIL ADRESS
+  function callback_studentmail_success(response){
+    document.getElementById("email").innerHTML=response;
+    document.getElementById("status_bar").innerHTML="Schülermail erfolgreich geladen";
+  }
+
+  //GET TEACHER INFO
+  function callback_teacher_success(response){
+    document.getElementById("teacher_contact").innerHTML=response;
+    document.getElementById("status_bar").innerHTML="Lehrerinfos erfolgreich geladen";
+  }
+
+  //LOAD NEW ROW
+  function handleFormReset() {
+    document.getElementById("status_bar").innerHTML="Wird geladen";
+    google.script.run.withFailureHandler(callback_failure).withSuccessHandler(callback_row_success).getCurrentRow()
+  }
+</script>

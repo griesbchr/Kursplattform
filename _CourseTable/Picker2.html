@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons.css" />
+    <script type="text/javascript">
+      var DIALOG_DIMENSIONS = {
+        width: 650,
+        height: 525,
+      };
+      var pickerApiLoaded = false;
+
+      function onApiLoad() {
+        document.getElementById('result').innerHTML = "Google Drive Inhalte werden geladen..";
+
+        gapi.load('picker', {
+          callback: function () {
+            pickerApiLoaded = true;
+          },
+        });
+        google.script.run.withSuccessHandler(createPicker).withFailureHandler(showError).getOAuthToken();
+      }
+
+      function createPicker(token) {
+        if (pickerApiLoaded && token) {
+          var docsView = new google.picker.DocsView()
+            .setIncludeFolders(true)
+            .setSelectFolderEnabled(false)
+            .setEnableTeamDrives(true);
+            //.setMimeTypes('application/vnd.google-apps.folder')
+            //.setSelectFolderEnabled(true);
+
+          var picker = new google.picker.PickerBuilder()
+            .addView(docsView)
+            .enableFeature(google.picker.Feature.SUPPORT_TEAM_DRIVES)
+            .enableFeature(google.picker.Feature.NAV_HIDDEN)
+            .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
+            .hideTitleBar()
+            .setSize(DIALOG_DIMENSIONS.width - 2, DIALOG_DIMENSIONS.height - 2)
+            .setOAuthToken(token)
+            .setCallback(pickerCallback)
+            .setOrigin('https://docs.google.com')
+            .build();
+
+          picker.setVisible(true);
+        } else {
+          showError('Unable to load the file picker.');
+        }
+      }
+
+      /**
+       * A callback function that extracts the chosen document's metadata from the
+       * response object. For details on the response object, see
+       * https://developers.google.com/picker/docs/result
+       *
+       * @param {object} data The response object.
+       */
+    function pickerCallback(data) {
+        var action = data[google.picker.Response.ACTION];
+        if (action == google.picker.Action.PICKED) {
+            let ids = []
+            for (let doc of data[google.picker.Response.DOCUMENTS])
+            {
+              ids.push(doc[google.picker.Document.ID]);
+            }
+            document.getElementById('result').innerHTML = "Daten werden verarbeitet. Bitte warten...";
+            //document.getElementById('result').innerHTML = ids;
+
+            google.script.run.withSuccessHandler(function(){google.script.host.close()}).proccessSelectedFiles(ids);
+        } else if (action == google.picker.Action.CANCEL) {
+            google.script.host.close();
+        }
+    }
+
+      function showError(message) {
+        document.getElementById('result').innerHTML = 'Error: ' + message;
+      }
+    </script>
+  </head>
+
+  <body>
+    <div>
+      <p id="result"></p>
+    </div>
+    <script type="text/javascript" src="https://apis.google.com/js/api.js?onload=onApiLoad"></script>
+  </body>
+</html>

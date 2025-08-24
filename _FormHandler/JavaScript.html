@@ -1,0 +1,31 @@
+<script>
+  // Prevent forms from submitting.
+  function preventFormSubmit() {
+    var forms = document.querySelectorAll('form');
+    for (var i = 0; i < forms.length; i++) {
+      forms[i].addEventListener('submit', function(event) {
+      event.preventDefault();
+      });
+    }
+  }
+  window.addEventListener('load', preventFormSubmit);    
+  
+
+  //sent email
+  function submit_handler(form, id) {
+    alert("Bitte warten, die Email wird gesendet..");
+    google.script.run.withFailureHandler(callback_failure).withSuccessHandler(callback_mail_success).processMailForm(form);
+  }
+
+  function callback_failure()
+  {
+    alert("Versenden fehlgeschlagen");
+  }
+
+    function callback_mail_success()
+  {
+    alert("Email wurde versendet!");
+  }
+
+</script>
+

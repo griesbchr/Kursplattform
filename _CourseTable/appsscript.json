@@ -1,0 +1,58 @@
+{
+  "timeZone": "Europe/Vienna",
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8",
+  "dependencies": {
+    "enabledAdvancedServices": [
+      {
+        "userSymbol": "Drive",
+        "serviceId": "drive",
+        "version": "v2"
+      }
+    ],
+    "libraries": [
+      {
+        "userSymbol": "TF",
+        "libraryId": "1AJwHMNj9JI-jwjX8NTi6xVIIdqGZbewSFYqByazIZfNF28sNiACRC9Ln",
+        "version": "0",
+        "developmentMode": true
+      },
+      {
+        "userSymbol": "TT",
+        "libraryId": "1EwjRBEGNoyOLzqsNkXzuubrLLtyQfKuBUYzZidORAnwY3oMllR55ZAiK",
+        "version": "0",
+        "developmentMode": true
+      },
+      {
+        "userSymbol": "DATA",
+        "libraryId": "1iWvHa8GzRyxXEdInfoX4eZKxrvm8WTiDwAl72QOmx47ovya5FoZFVJfh",
+        "version": "0",
+        "developmentMode": true
+      },
+      {
+        "userSymbol": "UTLS",
+        "libraryId": "1lco4NfwE4zWFZ3VjujqG7eJXiBE8w86Y7eiS7zfNrywAzvZUcE_ecI20",
+        "version": "0",
+        "developmentMode": true
+      },
+      {
+        "userSymbol": "API",
+        "libraryId": "1ddPHjsiULAAVkG598CkQX2Nxg2GDH9yyByLneEsTW3hMR2lQ7vKAQ5Nl",
+        "version": "0",
+        "developmentMode": true
+      },
+      {
+        "userSymbol": "TI",
+        "version": "0",
+        "libraryId": "1uRCciFeJR4CW82jk1_2r2XPuHV3VLwPxSdu4fx1EPJInBDICjC2ANjBL",
+        "developmentMode": true
+      },
+      {
+        "userSymbol": "TF_GET",
+        "version": "0",
+        "libraryId": "13cMRMqIGsKX4AXnYSSVeSimJiMyzPUfl4C1fdk1Mrc-cbDCO9CuztTV8",
+        "developmentMode": true
+      }
+    ]
+  }
+}

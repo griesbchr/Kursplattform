@@ -1,0 +1,74 @@
+{
+  "timeZone": "Europe/Vienna",
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8",
+  "dependencies": {
+    "enabledAdvancedServices": [
+      {
+        "userSymbol": "Drive",
+        "serviceId": "drive",
+        "version": "v2"
+      }
+    ],
+    "libraries": [
+      {
+        "userSymbol": "ET",
+        "libraryId": "1OPP8-30DzKxaSh0kIAcALVFrqjbEAVTRSRFBFHIUBlicXwkpUwV2YTjK",
+        "version": "0",
+        "developmentMode": true
+      },
+      {
+        "userSymbol": "DATA",
+        "libraryId": "1iWvHa8GzRyxXEdInfoX4eZKxrvm8WTiDwAl72QOmx47ovya5FoZFVJfh",
+        "version": "0",
+        "developmentMode": true
+      },
+      {
+        "userSymbol": "CT",
+        "libraryId": "18e4kEt7-LyH61WRJO6bOJYyt2Tp_IVX2c-CQXnaH9WrnTWqAavGSDfeD",
+        "version": "0",
+        "developmentMode": true
+      },
+      {
+        "userSymbol": "TT",
+        "libraryId": "1EwjRBEGNoyOLzqsNkXzuubrLLtyQfKuBUYzZidORAnwY3oMllR55ZAiK",
+        "version": "0",
+        "developmentMode": true
+      },
+      {
+        "userSymbol": "UTLS",
+        "libraryId": "1lco4NfwE4zWFZ3VjujqG7eJXiBE8w86Y7eiS7zfNrywAzvZUcE_ecI20",
+        "version": "0",
+        "developmentMode": true
+      },
+      {
+        "userSymbol": "MAIL",
+        "libraryId": "1NnjN6_RGvO4pE5d-H8TKf5CL7VgEMJ_qeRa4TlVWTsu8CGn7x3k-kGEd",
+        "version": "0",
+        "developmentMode": true
+      },
+      {
+        "userSymbol": "REGFORM",
+        "libraryId": "1MOftkTDD8D9uE7UBCFz9KXbK88bNz8MFOgylMwmff3g-ckpW6k9O8onm",
+        "version": "0",
+        "developmentMode": true
+      },
+      {
+        "userSymbol": "API",
+        "libraryId": "1ddPHjsiULAAVkG598CkQX2Nxg2GDH9yyByLneEsTW3hMR2lQ7vKAQ5Nl",
+        "version": "0",
+        "developmentMode": true
+      },
+      {
+        "userSymbol": "CONTRACT",
+        "libraryId": "1uU5ypxsGXsiZH6UdWWpmYJhHVcQzV4wwMhsrsJ5LfUMiDOn2ISKQGVrB",
+        "version": "0",
+        "developmentMode": true
+      }
+    ]
+  },
+  "webapp": {
+    "executeAs": "USER_DEPLOYING",
+    "access": "ANYONE_ANONYMOUS"
+  }
+}

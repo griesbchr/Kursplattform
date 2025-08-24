@@ -1,0 +1,34 @@
+{
+  "timeZone": "Europe/Vienna",
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8",
+  "dependencies": {
+    "libraries": [
+      {
+        "userSymbol": "UTLS",
+        "libraryId": "1lco4NfwE4zWFZ3VjujqG7eJXiBE8w86Y7eiS7zfNrywAzvZUcE_ecI20",
+        "version": "0",
+        "developmentMode": true
+      },
+      {
+        "userSymbol": "TF_GET",
+        "libraryId": "13cMRMqIGsKX4AXnYSSVeSimJiMyzPUfl4C1fdk1Mrc-cbDCO9CuztTV8",
+        "version": "0",
+        "developmentMode": true
+      },
+      {
+        "userSymbol": "API",
+        "version": "0",
+        "libraryId": "1ddPHjsiULAAVkG598CkQX2Nxg2GDH9yyByLneEsTW3hMR2lQ7vKAQ5Nl",
+        "developmentMode": true
+      }
+    ]
+  },
+  "webapp": {
+    "executeAs": "USER_DEPLOYING",
+    "access": "MYSELF"
+  },
+  "executionApi": {
+    "access": "DOMAIN"
+  }
+}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <base target="_top">
+    <?!= include('Stylesheet'); ?>
+    <title>Datenerhebung</title>
+  </head>
+  <body>
+    <div class="container">
+      <img src="https://kursplattform.at/fileadmin/templates/home/images/logo.png" alt="iVi Kursplattform logo" class="logo">
+      <h1>Datenerhebung</h1>
+      <p>Wähle eine Option:</p>
+      <br>
+      <p>Datenerhebung sofort ausfüllen</p>
+      <a href="replace_with_url" class="cta">Datenerhebung ausfüllen</a>
+      <p>ODER<p/>
+      <form id="email_form" onsubmit="submit_handler(this)">
+        <p>Link zur Datenerhebung für die Anmeldung an Eltern/KursteilnehmerIn senden</p>
+        <input type="email" placeholder="Email Adresse eingeben" id="email" name="email" required>
+        <input type="submit" value="Senden">
+        <input type="hidden" name="teacher_id" value="replace_with_id"/>
+        <input type="hidden" name="form_url" value="replace_with_form_url"/>
+        
+      </form>
+    </div>
+    <?!= include('JavaScript'); ?>
+  </body>
+</html>
+

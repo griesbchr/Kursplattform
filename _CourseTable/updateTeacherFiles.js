@@ -1,0 +1,3 @@
+function updateTemplateFile() {
+  TF.updateTemplateFile()
+}
