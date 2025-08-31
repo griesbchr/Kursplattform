@@ -1,11 +1,11 @@
 //Logger.log("Load TF")
 //DriveApp.addFile("") //Uncomment this if authorization is needed!
 //----------------------------SCRIPT IDS-----------------------------
-TEACHERFILES_BOUNDED_LIB_ID = "1akJt9TwlpTUi-_hljndKoPAKbD-ifUxwHH-nVBocY3hA6lqLP7_hyYHI"
+TEACHERFILES_BOUNDED_LIB_ID = "1akJt9TwlpTUi-_hljndKoPAKbD-ifUxwHH-nVBocY3hA6lqLP7_hyYHI";
 
 //----------------------------TEACHERDRIVES-----------------------------
 const TEMPLATEFILENAME = "Lehrernummer_Name";
-const TEMPLATEFILEID = "1xICz83nMoSDBHo__WAczzq-PRf-UPPnmUO2pgws4Kbg"
+const TEMPLATEFILEID = "1xICz83nMoSDBHo__WAczzq-PRf-UPPnmUO2pgws4Kbg";
 const TEMPLATEFILE = DriveApp.getFilesByName(TEMPLATEFILENAME).next();
 
 const TEACHERSFOLDERNAME = "Lehrerdateien";
@@ -16,25 +16,29 @@ function getTeacherFilesFolder() {
 
 const ARCHIEVFOLDERNAME = "Archiv";
 const ARCHIEVFOLDER = DriveApp.getFoldersByName(ARCHIEVFOLDERNAME).next();
-const ARCHIVEFOLDERID = "1_kLXIfPRkGY1i7uxNAcVmPS0M9SxFju5"
-
+const ARCHIVEFOLDERID = "1_kLXIfPRkGY1i7uxNAcVmPS0M9SxFju5";
 
 const COURSECONTRACTTEMPLATEFILENAME = "Anmeldeformular_Template";
 const COURSECONTRACTTEMPLATEFILE = DriveApp.getFilesByName(COURSECONTRACTTEMPLATEFILENAME).next();
 
 //---------------------------TEACHERFILES--------------------------------
-const EDITORSMAILLIST = ["griesbacher@kursplattform.at", "stefan.schusteritsch@aon.at", "info@mazgraz.at", "daniel.muhr93@gmail.com"];
+const EDITORSMAILLIST = [
+  "griesbacher@kursplattform.at",
+  "stefan.schusteritsch@aon.at",
+  "info@mazgraz.at",
+  "daniel.muhr93@gmail.com",
+];
 const ROOMPAYMENTREFERENCE = "Raumbenutzungsgebühr Musikunterricht";
 
 //shared with ET/bounded
 //Course status / Billing status
 const NOCOURSEVALUE = "Kurs nicht gestartet";
-const COURSESTARTINGVALUE = "Kurs wird gestartet"
+const COURSESTARTINGVALUE = "Kurs wird gestartet";
 const COURSESTARTEDVALUE = "Kurs läuft";
 const DEREGISTEREDVALUE = "Abgemeldet";
 const COURSEFINISHEDVALUE = "Kurs abgeschlossen";
 
-const NOCONTACTSTATUS = "Noch offen"
+const NOCONTACTSTATUS = "Noch offen";
 
 //set colors
 const WHITE = "#ffffff";
@@ -111,9 +115,9 @@ const PAYMENTSTATUSDUE = "fällig";
 
 const NOCONTRACTSTATUS = "Anmeldung nicht vorhanden";
 
-const NOPREREGSTATUS = "keine Voranmeldung"
+const NOPREREGSTATUS = "keine Voranmeldung";
 
-const NODOSTRICT = "Keine Zweigstelle"
+const NODOSTRICT = "Keine Zweigstelle";
 
 const PAYMENT1DUECOL = 21;
 const PAYMENT1PAIDCOL = 22;
@@ -219,6 +223,11 @@ const FOR_TEACHERNAMECOL = 1;
 const FOR_TEACHERIDCOL = 2;
 const FOR_BILLCYCLE = 3;
 
-const ROOM_FIRSTROW = 5
-const ROOM_LENGTH = 22
-const ROOM_DISTRICTSCOL = 1
+// ----------------------------------------- Roomusage ------------------------------------------
+const WEEKDAYS = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"];
+const ROOM_FIRSTROW = 5;
+const ROOM_NAMECOL = 1;
+const ROOM_DISTRICTSCOL = 2;
+const ROOM_INSTRUMENTCOL = 3;
+const ROOM_DAYCOL = 4;
+const ROOM_ROOMCOL = 8;
