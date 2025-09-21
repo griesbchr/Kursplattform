@@ -58,7 +58,7 @@ function createCoursesNoPreprocessing(courses) {
 }
 
 function createCoursesMultithreaded(courses) {
-  var max_courses_per_worker = 2;
+  var max_courses_per_worker = 1;
   var num_processes = Math.ceil(courses["course_list"].length / max_courses_per_worker);
 
   doTeacherFilePreprocessing(courses);
@@ -88,24 +88,34 @@ function createCourse(course) {
   //add to other tabs
   course = addCourseToAttendancelist(course);
   course = addCourseToBillinglist(course);
-  addCourseToRoomusage(course);
+
+  // only add to room usage if course is at course location
+  if (course["Kursmodus"] == ROOMRENTATCOURSELOCATIONNAME)
+  {
+    addCourseToRoomusage(course);
+  }
+  const startTime = new Date(); // Example: now
 
   //add course to administration lists
-  course = CT.addCourseToCourseBillingTable(course);
-  SpreadsheetApp.flush();
-  course = CT.addCourseToCourseTable(course);
-  SpreadsheetApp.flush();
+  course = CT.addCourseToCourseTableAndBilling(course);
+  
   //set enrollment status
   ET.setCourseStatus(course["SchuelerID"], COURSESTARTEDVALUE);
+  
+  const endTime = new Date();
+  const differenceInMs = endTime.getTime() - startTime.getTime();
+
+  const differenceInSeconds = differenceInMs / 1000;
+
+  console.log(differenceInSeconds)
 
   //sent mail to teacher and parent
-  if (course["Anmeldungen"] == NOCONTRACTSTATUS || course["Anmeldungen"] == "") {
-    try {
-      sentContractMailByCourseDict(course);
-    } catch (e) {
-      console.warn("[TF][ERROR]The following error occured when trying to sent the course contract mail:" + e.message);
-    }
+  try {
+    sentContractMailByCourseDict(course);
+  } catch (e) {
+    console.warn("[TF][ERROR]The following error occured when trying to sent the course contract mail:" + e.message);
   }
+  
   console.log("[" + course["KursID"] + "] Sent Contract");
 
   //check billing checkbox, lock course parameter and set course id
@@ -182,4 +192,20 @@ function changeStudentSheet(course) {
 
   //undo row selection
   student_sheet.getRange(row, STU_CHECKBOXCOL).uncheck();
+}
+
+
+function test_flush()
+{
+  const startTime = new Date(); // Example: now
+  SpreadsheetApp.flush()
+
+
+  const endTime = new Date();
+  const differenceInMs = endTime.getTime() - startTime.getTime();
+
+  const differenceInSeconds = differenceInMs / 1000;
+
+  console.log(differenceInSeconds)
+
 }

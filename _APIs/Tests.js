@@ -16,3 +16,10 @@ function testMultiThreadedTFApi()
   var list = getThreadedTFApi("get_studentinfos_thread", file_id_list)
   console.log(list)
 }
+
+function test_runner_limit()
+{
+  var arg_list = Array.from({ length: 20 }, () => "1");
+
+  getThreadedTFApi("sleep", arg_list)
+}

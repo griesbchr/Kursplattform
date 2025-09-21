@@ -101,6 +101,9 @@ function doPost(e)
   case("log_test"):
     Logger.log("test message was received in new version")
     break;
+  case("sleep"):
+    Utilities.sleep(1000*10);
+    break;
 
   default:
     throw(new Error("action string '"+e.parameter["request_type"]+"' could not be matched in file TeacherFiles"))    

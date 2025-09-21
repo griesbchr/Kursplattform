@@ -95,8 +95,7 @@ function addStudentToContactlist(student)
     row_fontcolor[30] = CANNOTCHANGECOLOR
 
   try {
-    var sheet_id = sheet.getSheetId()
-    UTLS.lockSheet(sheet_id)
+    UTLS.lockSheet(sheet)
 
     var row = appendCleanRow(sheet)
     sheet.getRange(row, 1, 1, len).setValues([row_data]).setNumberFormats([row_format]).setFontColors([row_fontcolor])
@@ -107,7 +106,7 @@ function addStudentToContactlist(student)
     console.log("error in catch of course table")
     throw e
   } finally {
-    UTLS.releaseSheetLock(sheet_id)
+    UTLS.releaseSheetLock(sheet)
   }
 
   

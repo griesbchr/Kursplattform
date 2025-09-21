@@ -2,7 +2,10 @@
 function showFormInSidebar() {      
   //var form = HtmlService.createTemplateFromFile('Index').evaluate().setTitle('Contact Details');
 
-  let row = UTLS.getCheckedRows(ENROLLMENTSHEET, SELECTCOL)[0]
+  //This is super slow
+  //let row = UTLS.getCheckedRows(ENROLLMENTSHEET, SELECTCOL)[0]
+
+  let row = SpreadsheetApp.getActiveRange().getRow()
   let teacher_id = ENROLLMENTSHEET.getRange(row, TEACHERCOL).getValue().split("_")[0]
 
   const mail = ENROLLMENTSHEET.getRange(row, MAILCOL).getValue()
@@ -43,11 +46,12 @@ function processForm(formObject){
 //GET ROW
 function getCurrentRow()
 {
-  return UTLS.getCheckedRows(ENROLLMENTSHEET, SELECTCOL)[0]
+  return SpreadsheetApp.getActiveRange().getRow()
 }
 
 //TEACHER CONTEACT
 function getTeacherContact(row){
+  //var row = 3
   //let row = getCheckedRows(ENROLLMENTSHEET, SELECTCOL)[0]
   let teacher_id = ENROLLMENTSHEET.getRange(row, TEACHERCOL).getValue().split("_")[0]
   var teacher_contact
@@ -70,3 +74,4 @@ function getMail(row){
 function include(filename) {
   return HtmlService.createHtmlOutputFromFile(filename).getContent();
 }
+

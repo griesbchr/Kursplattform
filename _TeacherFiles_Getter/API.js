@@ -41,7 +41,10 @@ function doGet(e) {
   case("get_all_teacherfile_names"):
     data = getAllTeacherFileNames()
     break
-
+  case("sleep"):
+    Utilities.sleep(1000*10)
+    data = "slept 10 seconds"
+    break;
   case("test_msg"):
     Logger.log("sendint test msg")
     data = "sending test msg"

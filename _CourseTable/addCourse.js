@@ -290,12 +290,20 @@ function getP5StatusFormula(row) {
     '=0;"nicht bezahlt";"falscher Betrag")))))'
   );
 }
+
+function addCourseToCourseTableAndBilling(course)
+{
+  var course = addCourseToCourseBillingTable(course)
+  course = addCourseToCourseTable(course)
+
+  return course
+}
+
 function addCourseToCourseBillingTable(course) {
   Logger.log("[CT]Adding course with id " + course["KursID"] + " to course billing table");
   
   try {
-    var sheet_id = COURSEBILLINGSHEET.getSheetId()
-    UTLS.lockSheet(sheet_id)
+    UTLS.lockSheet(COURSEBILLINGSHEET)
     var start_time = Math.floor(new Date().getTime() / 1000);
 
     var row = COURSEBILLINGSHEET.getLastRow() + 1;
@@ -305,94 +313,82 @@ function addCourseToCourseBillingTable(course) {
     console.log("error in catch of coursebilling")
     throw e
   } finally {
-    UTLS.releaseSheetLock(sheet_id)
+    UTLS.releaseSheetLock(COURSEBILLINGSHEET)
     var end_time = Math.floor(new Date().getTime() / 1000);
     var time_diff = end_time - start_time
     //console.log("[CT] Held billing table lock for " + time_diff + " seconds.")
   }
 
   //IDs
-  COURSEBILLINGSHEET.getRange(row, 1).setRichTextValue(
-    SpreadsheetApp.newRichTextValue()
-      .setText(course["KursID"])
-      //url will be set in coursetable function
-      .build()
-  );
-  COURSEBILLINGSHEET.getRange(row, 2).setRichTextValue(
-    SpreadsheetApp.newRichTextValue().setText(course["SchuelerID"]).setLinkUrl(course["bilstu_url"]).build()
-  );
-  COURSEBILLINGSHEET.getRange(row, 3).setRichTextValue(
-    SpreadsheetApp.newRichTextValue()
-      .setText(course["LehrerID"])
-      .setLinkUrl(TT.getTeacherLink(course["LehrerID"]))
-      .build()
-  );
+  var rich_texts = [[
+    SpreadsheetApp.newRichTextValue().setText(course["KursID"]).build(),
+    SpreadsheetApp.newRichTextValue().setText(course["SchuelerID"]).setLinkUrl(course["bilstu_url"]).build(),
+    SpreadsheetApp.newRichTextValue().setText(course["LehrerID"]).setLinkUrl(TT.getTeacherLink(course["LehrerID"])).build()
+  ]]
 
+  COURSEBILLINGSHEET.getRange(row,1,1,3).setRichTextValues(rich_texts)
 
-  let call_list = {
-    //Kursinfo
-    "Lehrer Vorname": COURSEBILLINGSHEET.getRange(row, 4).setValue(TT.getTeacherFirstName(course["LehrerID"])),
-    "Lehrer Nachname": COURSEBILLINGSHEET.getRange(row, 5).setValue(TT.getTeacherLastName(course["LehrerID"])),
-    "Schüler Vorname": COURSEBILLINGSHEET.getRange(row, 6).setValue(course["S_Vorname"]),
-    "Schüler Nachname": COURSEBILLINGSHEET.getRange(row, 7).setValue(course["S_Nachname"]),
-    Zweigstelle: COURSEBILLINGSHEET.getRange(row, 8).setValue(course["Zweigstelle"]),
-    Notizen: COURSEBILLINGSHEET.getRange(row, 9).setValue("         "),
-    "Verrechnungsserv.": COURSEBILLINGSHEET.getRange(row, 10).setValue(TT.getBillingServiceStatus(course["LehrerID"])),
-    Kursstatus: COURSEBILLINGSHEET.getRange(row, 11).setValue(COURSESTARTEDVALUE),
-    //Regiebeitrag
-    Status: COURSEBILLINGSHEET.getRange(row, 12).setFormula(getAdminFeeFormula(row)),
-    "Betrag erlassen": COURSEBILLINGSHEET.getRange(row, 13).insertCheckboxes(),
-    Buchungsnummer: COURSEBILLINGSHEET.getRange(row, 14).setValue(course["KursID"]),
-    "fälliger Betrag": COURSEBILLINGSHEET.getRange(row, 15).setValue(getAdminFee()).setNumberFormat("[$€]#,##0.00"),
-    Betrag: COURSEBILLINGSHEET.getRange(row, 16).setValue(NOTENTEREDSTATUS),
-    Datum: COURSEBILLINGSHEET.getRange(row, 17).setValue(""),
-    Zweck: COURSEBILLINGSHEET.getRange(row, 18).setValue(""),
-    //Teilzahlung 1
-    Status: COURSEBILLINGSHEET.getRange(row, 19).setValue(getP1StatusFormula(row)),
-    Buchungsnummer: COURSEBILLINGSHEET.getRange(row, 20).setValue(course["KursID"] + "1"),
-    "fälliger Betrag": COURSEBILLINGSHEET.getRange(row, 21).setValue(PAYMENTSTATUSNOTDUE),
-    Betrag: COURSEBILLINGSHEET.getRange(row, 22).setValue(NOTENTEREDSTATUS),
-    Datum: COURSEBILLINGSHEET.getRange(row, 23).setValue(""),
-    Zweck: COURSEBILLINGSHEET.getRange(row, 24).setValue(""),
-    //Teilzahlung 2
-    Status: COURSEBILLINGSHEET.getRange(row, 25).setValue(getP2StatusFormula(row)),
-    Buchungsnummer: COURSEBILLINGSHEET.getRange(row, 26).setValue(course["KursID"] + "2"),
-    "fälliger Betrag": COURSEBILLINGSHEET.getRange(row, 27).setValue(PAYMENTSTATUSNOTDUE),
-    Betrag: COURSEBILLINGSHEET.getRange(row, 28).setValue(NOTENTEREDSTATUS),
-    Datum: COURSEBILLINGSHEET.getRange(row, 29).setValue(""),
-    Zweck: COURSEBILLINGSHEET.getRange(row, 30).setValue(""),
-    //Teilzahlung 3
-    Status: COURSEBILLINGSHEET.getRange(row, 31).setValue(getP3StatusFormula(row)),
-    Buchungsnummer: COURSEBILLINGSHEET.getRange(row, 32).setValue(course["KursID"] + "3"),
-    "fälliger Betrag": COURSEBILLINGSHEET.getRange(row, 33).setValue(PAYMENTSTATUSNOTDUE),
-    Betrag: COURSEBILLINGSHEET.getRange(row, 34).setValue(NOTENTEREDSTATUS),
-    Datum: COURSEBILLINGSHEET.getRange(row, 35).setValue(""),
-    Zweck: COURSEBILLINGSHEET.getRange(row, 36).setValue(""),
-    //Teilzahlung 4
-    Status: COURSEBILLINGSHEET.getRange(row, 37).setValue(getP4StatusFormula(row)),
-    Buchungsnummer: COURSEBILLINGSHEET.getRange(row, 38).setValue(course["KursID"] + "4"),
-    "fälliger Betrag": COURSEBILLINGSHEET.getRange(row, 39).setValue(PAYMENTSTATUSNOTDUE),
-    Betrag: COURSEBILLINGSHEET.getRange(row, 40).setValue(NOTENTEREDSTATUS),
-    Datum: COURSEBILLINGSHEET.getRange(row, 41).setValue(""),
-    Zweck: COURSEBILLINGSHEET.getRange(row, 42).setValue(""),
-    //Mahnung
-    "Mahnung ": COURSEBILLINGSHEET.getRange(row, 43).insertCheckboxes(),
-    //Infrastrukturbeitrag
-    "Infra fällt an": COURSEBILLINGSHEET.getRange(row, 44).insertCheckboxes(),
-    //Teilzahlung 5
-    Status: COURSEBILLINGSHEET.getRange(row, 45).setValue(getP5StatusFormula(row)),
-    Buchungsnummer: COURSEBILLINGSHEET.getRange(row, 46).setValue(course["KursID"] + "5"),
-    "fälliger Betrag": COURSEBILLINGSHEET.getRange(row, 47).setValue(PAYMENTSTATUSNOTDUE),
-    Betrag: COURSEBILLINGSHEET.getRange(row, 48).setValue(NOTENTEREDSTATUS),
-    Datum: COURSEBILLINGSHEET.getRange(row, 49).setValue(""),
-    Zweck: COURSEBILLINGSHEET.getRange(row, 50).setValue(""),
-    //Verrechnungsstatus
-    Verrechnungsstat: COURSEBILLINGSHEET.getRange(row, 51).setValue(BILLINGNOTDONESTATUS),
-    Ausstellungsstatus: COURSEBILLINGSHEET.getRange(row, 52).setValue(BILLINGNOTSENT),
-    Bezahltstatus: COURSEBILLINGSHEET.getRange(row, 53).setFormula(getPaidStatusFormula(row)),
-    //Regiebeitrag Vorausbezahlt
-    "Regie Voraus": COURSEBILLINGSHEET.getRange(row, 54).insertCheckboxes(),
-  };
+  //set required number formats
+  COURSEBILLINGSHEET.getRange(row, 15).setNumberFormat("[$€]#,##0.00")
+
+  var teacher_data = TT.getTeacherDataById(course["LehrerID"])
+  var values = [
+    teacher_data["Vorname"],
+    teacher_data["Nachname"],
+    course["S_Vorname"],
+    course["S_Nachname"],
+    course["Zweigstelle"],
+    teacher_data["Verrechnungsservice"],
+    COURSESTARTEDVALUE,
+    getAdminFeeFormula(row),
+    "",   //checkbox
+    course["KursID"],
+    getAdminFee(),
+    NOTENTEREDSTATUS,
+    "",
+    "",
+    getP1StatusFormula(row),
+    course["KursID"] + "1",
+    PAYMENTSTATUSNOTDUE,
+    NOTENTEREDSTATUS,
+    "",
+    "",
+    getP2StatusFormula(row),
+    course["KursID"] + "2",
+    PAYMENTSTATUSNOTDUE,
+    NOTENTEREDSTATUS,
+    "",
+    "",
+    getP3StatusFormula(row),
+    course["KursID"] + "3",
+    PAYMENTSTATUSNOTDUE,
+    NOTENTEREDSTATUS,
+    getP4StatusFormula(row),
+    course["KursID"] + "4",
+    PAYMENTSTATUSNOTDUE,
+    NOTENTEREDSTATUS,
+    "",
+    "",
+    "",   //checkbox
+    "",   //checkbox
+    getP5StatusFormula(row),
+    course["KursID"] + "5",
+    PAYMENTSTATUSNOTDUE,
+    NOTENTEREDSTATUS,
+    "",
+    "",
+    BILLINGNOTDONESTATUS,
+    BILLINGNOTSENT,
+    getPaidStatusFormula(row)
+  ]
+
+  COURSEBILLINGSHEET.getRange(row, 4,1,values.length).setValues([values])
+
+  var checkbox_cols = [13, 43, 44, 54]
+  for (var col of checkbox_cols)
+  {
+    COURSEBILLINGSHEET.getRange(row, col).insertCheckboxes()
+  }
 
   course["coursebilling_url"] = COURSEBILLINGSHEETBASEURL + "&range=" + row + ":" + row;
 
@@ -407,8 +403,7 @@ function addCourseToCourseTable(course) {
   course["course_end"] = DATA.getCourseEnd();
 
   try {
-    var sheet_id = COURSESHEET.getSheetId()
-    UTLS.lockSheet(sheet_id)
+    UTLS.lockSheet(COURSESHEET)
     var start_time = Math.floor(new Date().getTime() / 1000);
 
     var row = COURSESHEET.getLastRow() + 1;
@@ -421,80 +416,62 @@ function addCourseToCourseTable(course) {
     console.log("error in catch of course table")
     throw e
   } finally {
-    UTLS.releaseSheetLock(sheet_id)
+    UTLS.releaseSheetLock(COURSESHEET)
     var end_time = Math.floor(new Date().getTime() / 1000);
     var time_diff = end_time - start_time
     //console.log("[CT] Held course table lock for " + time_diff + " seconds.")
   }
+  var rich_texts = [[
+    SpreadsheetApp.newRichTextValue().setText(course["KursID"]).setLinkUrl(course["coursebilling_url"]).build(),
+    SpreadsheetApp.newRichTextValue().setText(course["SchuelerID"]).setLinkUrl(course["studentlist_url"]).build(),
+    SpreadsheetApp.newRichTextValue().setText(course["LehrerID"]).setLinkUrl(TT.getTeacherLink(course["LehrerID"])).build()
+    ]]
     // Insert rich texts
-    COURSESHEET.getRange(row, 1).setRichTextValue(
-      SpreadsheetApp.newRichTextValue().setText(course["KursID"]).setLinkUrl(course["coursebilling_url"]).build()
-    )
-    COURSESHEET.getRange(row, 2).setRichTextValue(
-      SpreadsheetApp.newRichTextValue().setText(course["SchuelerID"]).setLinkUrl(course["studentlist_url"]).build()
-    )
-    COURSESHEET.getRange(row, 3).setRichTextValue(
-      SpreadsheetApp.newRichTextValue()
-        .setText(course["LehrerID"])
-        .setLinkUrl(TT.getTeacherLink(course["LehrerID"]))
-        .build()
-    )
-    //Insert text
-    //"Lehrer Vorname":
-    COURSESHEET.getRange(row, 4).setValue(TT.getTeacherFirstName(course["LehrerID"])),
-    //  "Lehrer Nachname":
-    COURSESHEET.getRange(row, 5).setValue(TT.getTeacherLastName(course["LehrerID"])),
+    COURSESHEET.getRange(row,1,1,3).setRichTextValues(rich_texts)
 
-  //  "Lehrer Mail":
-  COURSESHEET.getRange(row, 6).setValue(TT.getTeacherMail(course["LehrerID"])),
-    //  "Schüler Vorname":
-    COURSESHEET.getRange(row, 7).setValue(course["S_Vorname"]),
-    //  "Schüler Nachname":
-    COURSESHEET.getRange(row, 8).setValue(course["S_Nachname"]),
-    //  "Zweigstelle":
-    COURSESHEET.getRange(row, 9).setValue(course["Zweigstelle"]),
-    //  "Verein":
-    COURSESHEET.getRange(row, 10).setValue(course["Verein"]),
-    //  "Instrument":
-    COURSESHEET.getRange(row, 11).setValue(course["Instrument"]),
-    //  "Kursart":
-    COURSESHEET.getRange(row, 12).setValue(course["Kursart"]),
-    //  "Kursnummer":
-    COURSESHEET.getRange(row, 13).setValue(course["Kursnummer"]),
-    //  "Kursmodus":
-    COURSESHEET.getRange(row, 14).setValue(course["Kursmodus"]),
-    //  "Kursstatus":
-    COURSESHEET.getRange(row, 15).setValue(COURSESTARTEDVALUE),
-    //  "Anmeldung":
-    COURSESHEET.getRange(row, 16).setValue(course["Anmeldungen"]),
-    //  "Kursbegin":
-    COURSESHEET.getRange(row, 17).setValue(course["course_start"]),
-    //  "Kursende":
-    COURSESHEET.getRange(row, 18).setValue(course["course_end"]),
-    //  "Notizen":
-    COURSESHEET.getRange(row, 19).setValue("         "),
-    //  "Tel_mobil":
-    COURSESHEET.getRange(row, 20).setNumberFormat("@").setValue(course["Telefon_mobil"]),
-    //  "tel_Vormittag":
-    COURSESHEET.getRange(row, 21).setNumberFormat("@").setValue(course["Telefon_Vormittag"]),
-    //  "SchülerMail":
-    COURSESHEET.getRange(row, 22).setValue(course["EMail"]),
-    //  "Schule_Klasse":
-    COURSESHEET.getRange(row, 23).setValue(course["Geburtsdatum"]),
-    //  "Geburtsdatum":
-    COURSESHEET.getRange(row, 24).setValue(course["Schule_Klasse"]),
-    //  "EMail":
-    COURSESHEET.getRange(row, 25).setValue(course["Rechnungs_Mail"]),
-    //  "Rechnungsname":
-    COURSESHEET.getRange(row, 26).setValue(course["Rechnungsname"]),
-    //  "Rechnungsadresse":
-    COURSESHEET.getRange(row, 27).setValue(course["Rechnungsadresse"]),
-    //  "Rechnungsort":
-    COURSESHEET.getRange(row, 28).setValue(course["Rechnungsort"]),
-    //  "Rechnungs_PLZ":
-    COURSESHEET.getRange(row, 29).setNumberFormat("@").setValue(course["Rechnungs_PLZ"]),
-    //  "Wohngemeinde":
-    COURSESHEET.getRange(row, 30).setValue(course["Wohngemeinde"]);
+  var teacher_data = TT.getTeacherDataById(course["LehrerID"])
+
+  //Insert value fields
+  var values = [
+    teacher_data["Vorname"],
+    teacher_data["Nachname"],
+    teacher_data["Email"],
+    course["S_Vorname"],
+    course["S_Nachname"],
+    course["Zweigstelle"],
+    course["Verein"],
+    course["Instrument"],
+    course["Kursart"],
+    course["Kursnummer"],
+    course["Kursmodus"],
+    COURSESTARTEDVALUE,
+    course["Anmeldungen"],
+    course["course_end"],
+    course["course_start"],
+    "         ", //Notes
+    course["Telefon_mobil"],
+    course["Telefon_Vormittag"],
+    course["EMail"],
+    course["Geburtsdatum"],
+    course["Schule_Klasse"],
+    course["Rechnungs_Mail"],
+    course["Rechnungsname"],
+    course["Rechnungsadresse"],
+    course["Rechnungsort"],
+    course["Rechnungs_PLZ"],
+    course["Wohngemeinde"]
+    ]
+
+  //set required formats
+  var set_number_format_cols = [20, 21, 29]
+  for (var col of set_number_format_cols)
+  {
+    COURSESHEET.getRange(row,col).setNumberFormat("@")
+  }
+
+  //set values
+  COURSESHEET.getRange(row,4,1,values.length).setValues([values])
+  
 
   let url = COURSESHEETBASEURL + "&range=" + row + ":" + row;
 
@@ -504,8 +481,10 @@ function addCourseToCourseTable(course) {
     .copy()
     .setLinkUrl(url)
     .build();
+
   //set newly created rich text to other sheet
   COURSEBILLINGSHEET.getRange(getCourseBillingRow(course["KursID"]), COURSEIDCOL).setRichTextValue(rich_text);
 
   return course;
 }
+

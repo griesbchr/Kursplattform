@@ -1,5 +1,7 @@
-function lockSheet(sheet_id){
+function lockSheet(sheet){
 
+  // make id consisting of sheet id + spreadsheet id because sheet id is not unique
+  var id = sheet.getSheetId() + sheet.getParent().getId()
   // Wait for exclusive access to docId
   var ready = false;
   // Get a script lock, because we're about to modify a shared resource, namely the property service.
@@ -17,9 +19,9 @@ function lockSheet(sheet_id){
     //check if document is locked or property service is locked
     //printScriptProperties()
     //console.log("property lock: " + property_lock.hasLock())
-    if (properties.getProperty(sheet_id) != null || property_lock.hasLock())
+    if (properties.getProperty(id) != null || property_lock.hasLock())
     {
-      //console.log("Sheet " + sheet_id + " is locked or property services is locked. Trying again later")
+      //console.log("Sheet " + id + " is locked or property services is locked. Trying again later")
       Utilities.sleep(1000)
 
     }else if (property_lock.tryLock(1000)) { //if sheet is available, get lock to property sercive and lock resource
@@ -27,9 +29,9 @@ function lockSheet(sheet_id){
       properties = PropertiesService.getScriptProperties();
       //console.log("try document lock")
       // If nobody has "locked" this document, lock it; we're ready.
-      if (properties.getProperty(sheet_id) == null) {
-        // Set a property with key=sheet_id.
-        properties.setProperty(sheet_id,"Locked"); 
+      if (properties.getProperty(id) == null) {
+        // Set a property with key=id.
+        properties.setProperty(id,"Locked"); 
         ready = true;
         //console.log("successfully aquired document lock, releasing properties lock")
         property_lock.releaseLock();
@@ -72,11 +74,13 @@ function printScriptProperties()
   console.log("Script properties: " + properties.getKeys())
 }
 
-function releaseSheetLock(sheet_id)
+function releaseSheetLock(sheet)
 {
+  var id = sheet.getSheetId() + sheet.getParent().getId()
+
   var properties = PropertiesService.getScriptProperties();
 
   // Delete the "key" for this document, so others can access it.
-  properties.deleteProperty(sheet_id); 
+  properties.deleteProperty(id); 
   //console.log("released lock")
 }

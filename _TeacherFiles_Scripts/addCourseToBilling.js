@@ -146,8 +146,7 @@ function addCourseToBillinglist(course)
   let spreadsheet = SpreadsheetApp.openById(file.getId())
   let billing_stu_sheet = spreadsheet.getSheetByName(BILLINGSTUDENTSHEETNAME)
   try {
-    var sheet_id = billing_stu_sheet.getSheetId()
-    UTLS.lockSheet(sheet_id)
+    UTLS.lockSheet(billing_stu_sheet)
 
     var row =  appendCleanRow(billing_stu_sheet)
     billing_stu_sheet.getRange(row,1).setValue(course["KursID"])
@@ -296,13 +295,12 @@ function addCourseToBillinglist(course)
     console.log("error in catch of course table")
     throw e
   } finally {
-    UTLS.releaseSheetLock(sheet_id)
+    UTLS.releaseSheetLock(billing_stu_sheet)
   }
   //-------------------------course billing-----------------------------------------
   try {
     var billing_course_sheet = spreadsheet.getSheetByName(BILLINGCOURSESHEETNAME)
-    var sheet_id = billing_course_sheet.getSheetId()
-    UTLS.lockSheet(sheet_id)
+    UTLS.lockSheet(billing_course_sheet)
 
   //check if district is already in list
   let curr_dist = billing_course_sheet.getRange(BILCOU_HEADERROW,BILCOU_ROOM_DISTCOL,LEN_DISTRICTLIST).getValues().flat()
@@ -342,7 +340,7 @@ function addCourseToBillinglist(course)
     console.log("error in catch of course table")
     throw e
   } finally {
-    UTLS.releaseSheetLock(sheet_id)
+    UTLS.releaseSheetLock(billing_course_sheet)
   }
 
 

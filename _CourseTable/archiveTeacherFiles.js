@@ -27,7 +27,8 @@ function archiveTeacherFiles(with_editors_as_viewers=false)
   const_payload["with_viewers_as_editors"] = with_editors_as_viewers
 
   split_payload["teacherfile_ids"] = teacherfile_ids
-  API.postThreadedTFApi("archive_teacherfile", const_payload, split_payload)
+  var num_threads = 15;
+  API.postThreadedTFApi("archive_teacherfile", const_payload, split_payload, num_threads)
 
   ss.toast("Archivierung abgeschlossen..","",20)
 }

@@ -7,8 +7,7 @@ function addCourseToAttendancelist(course) {
   try {
     var spreadsheet = SpreadsheetApp.openById(file.getId());
     var sheet = spreadsheet.getSheets().filter((e) => e.getName() === ATTENDANCESHEETNAME)[0];
-    var sheet_id = sheet.getSheetId();
-    UTLS.lockSheet(sheet_id);
+    UTLS.lockSheet(sheet);
 
     var upper_row = appendCleanRows(sheet, 2);
     var lower_row = upper_row + 1;
@@ -100,7 +99,7 @@ function addCourseToAttendancelist(course) {
     console.log("error in catch of course table");
     throw e;
   } finally {
-    UTLS.releaseSheetLock(sheet_id);
+    UTLS.releaseSheetLock(sheet);
   }
   return course;
 }

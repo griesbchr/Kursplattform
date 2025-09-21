@@ -4,8 +4,7 @@ function addCourseToRoomusage(course) {
     let spreadsheet = SpreadsheetApp.openById(file.getId());
 
     var roomsheet_course_sheet = spreadsheet.getSheetByName(ROOMUSAGESHEETNAME);
-    var sheet_id = roomsheet_course_sheet.getSheetId();
-    UTLS.lockSheet(sheet_id);
+    UTLS.lockSheet(roomsheet_course_sheet);
 
     var row = appendCleanRows(roomsheet_course_sheet, 1);
     var course_data = [course["S_Vorname"] + " " + course["S_Nachname"], course["Zweigstelle"], course["Instrument"]];
@@ -58,6 +57,6 @@ function addCourseToRoomusage(course) {
     console.log("error in catch of room usage table");
     throw e;
   } finally {
-    UTLS.releaseSheetLock(sheet_id);
+    UTLS.releaseSheetLock(roomsheet_course_sheet);
   }
 }

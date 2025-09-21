@@ -43,9 +43,6 @@ function getTeacherFile(id) {
   return file;
 }
 
-function test() {
-  console.log(getTeacherFile("005").getName());
-}
 
 function getAllTeacherFileNames() {
   let file_iter = TEACHERFILESFOLDER.getFiles();
@@ -177,3 +174,5 @@ function setGroupBorder(range) {
     .setBorder(null, null, null, null, true, true, null, SpreadsheetApp.BorderStyle.SOLID)
     .setBorder(true, true, true, true, null, null, null, SpreadsheetApp.BorderStyle.SOLID_MEDIUM);
 }
+
+

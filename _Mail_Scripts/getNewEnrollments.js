@@ -209,14 +209,6 @@ function parseMessageText(text)
   return data
 }
 
-function test()
-{
-  let unread_label = GmailApp.getUserLabelByName(UNPROCESSEDLABELNAME)
-  let processed_label = GmailApp.getUserLabelByName(PROCESSEDLABELNAME)
-  let threads = unread_label.getThreads()
-  threads[0].getMessages()[0].
-  console.log(response.length + " unprocessed message/s")
-}
 
 function getByteMap()
 {

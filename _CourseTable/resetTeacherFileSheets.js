@@ -38,10 +38,10 @@ function resetTeacherFileSheets()
     var teacherfile_ids = TF.getAllTeacherFileIds()
     teacherfile_ids.sort()
     
-    //var mid = Math.floor(teacherfile_ids.length / 2);
-    //var firstHalf = teacherfile_ids.slice(0, mid);
-    //var secondHalf = teacherfile_ids.slice(mid);
-    //teacherfile_ids = secondHalf
+    var mid = Math.floor(teacherfile_ids.length / 2);
+    var firstHalf = teacherfile_ids.slice(0, mid);
+    var secondHalf = teacherfile_ids.slice(mid);
+    teacherfile_ids = secondHalf
     
     //overwrite for debug
     //teacherfile_ids = ["1ip4u0xfeWqrk14OtOvw8NiDu-00KhDsN_D3BrCrsHE8"]
@@ -51,7 +51,8 @@ function resetTeacherFileSheets()
 
     console.log("sending teacherfile ids" + teacherfile_ids)
     split_payload["teacherfile_ids"] = teacherfile_ids
-    API.postThreadedTFApi("reset_teacherfile_sheets", const_payload, split_payload)
+    var num_threads = 25
+    API.postThreadedTFApi("reset_teacherfile_sheets", const_payload, split_payload, num_threads)
 
     ss.toast("Lehrerdateien reset abgeschlossen..","",20)
   } else {

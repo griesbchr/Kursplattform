@@ -25,13 +25,3 @@ function sentCourseContract(course, teacher, pdffile_id)
   sendHTMLMailWithAttachment(to=to_teacher, subject=subject, html_body=html_body_teacher, from_alias=from_alias, replyTo=replyTo, name=name, cc=null, attachments=attachments)
 
 }
-
-function test()
-{
-  console.log(CONTRACT_TEACHER_TEMPLATE.getBody().getText())
-    var html_body_teacher = CONTRACT_TEACHER_TEMPLATE.getBody().getText()
-  html_body_teacher = html_body_teacher.replace("<<S_Vorname>>", "Hanna")
-  html_body_teacher = html_body_teacher.replace("<<S_Nachname>>", "Schubert")
-  console.log(html_body_teacher)
-
-}

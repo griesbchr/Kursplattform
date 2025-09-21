@@ -9,13 +9,12 @@ function deleteCourses(data) {
     if (course_row != 0)
     {
       try {
-        var sheet_id = COURSESHEET.getSheetId()
-        UTLS.lockSheet(sheet_id)
+        UTLS.lockSheet(COURSESHEET)
         COURSESHEET.deleteRow(course_row)
       } catch (e) {
         throw e
       } finally {
-        UTLS.releaseSheetLock(sheet_id)
+        UTLS.releaseSheetLock(COURSESHEET)
       }
     }else
     {
@@ -28,13 +27,12 @@ function deleteCourses(data) {
     if (course_billing_row != 0)
     {
       try {
-        sheet_id = COURSEBILLINGSHEET.getSheetId()
-        UTLS.lockSheet(sheet_id)
+        UTLS.lockSheet(COURSEBILLINGSHEET)
         COURSEBILLINGSHEET.deleteRow(course_billing_row)
       } catch (e) {
         throw e
       } finally {
-        UTLS.releaseSheetLock(sheet_id)
+        UTLS.releaseSheetLock(COURSEBILLINGSHEET)
       }
     }else
     {

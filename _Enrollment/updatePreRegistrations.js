@@ -15,6 +15,7 @@ function updatePreRegistrations()
     comments_dict[key] = comments[idx];
   });
 
+  //TODO add TF lib - we removed it becaues importing it every time is very slow
   var not_found_ids = TF.updatePregegStatus(student_id_dict, comments_dict)
 
   prereg_student_range.setBackground(GREEN)
@@ -27,4 +28,9 @@ function updatePreRegistrations()
   }else{
     Browser.msgBox("Voranmeldestatus erfolgreich eingetragen.");
   }
+}
+
+function test()
+{
+  
 }

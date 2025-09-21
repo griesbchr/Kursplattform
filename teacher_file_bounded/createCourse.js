@@ -1,6 +1,9 @@
 function createCourseCallback() {
 
-  if (TEACHERSPREADSHEET.getName() != "174_test")
+  var allow_start_ids = ["174", "189"]
+  var teacher_id = TEACHERSPREADSHEET.getName().split("_")[0]
+
+  if (!allow_start_ids.includes(teacher_id))
   {
     Browser.msgBox("Kursstart noch nicht möglich.")
     return 
@@ -228,6 +231,7 @@ function createCourseCallback() {
 
   } else {
     Browser.msgBox(CANCELMESSAGE)
+    return
   }
   Logger.log("[INFO]" + TEACHERSPREADSHEET.getName() + " finished creating course")
   
